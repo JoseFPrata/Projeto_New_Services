@@ -19,7 +19,7 @@ import com.prata.web_services_new.repositories.UserRepository;
 @Profile("test")
 public class TestConfig implements CommandLineRunner{
 	
-	@Autowired   // isso fará com que o Spring entenda que é uma ijeção de dependência 
+	@Autowired   // isso fará com que o Spring entenda que é uma injeção de dependência 
 	public UserRepository userRepository;  // injeção de dependência
 
 	@Override
