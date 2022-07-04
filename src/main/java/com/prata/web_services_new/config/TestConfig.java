@@ -23,7 +23,7 @@ public class TestConfig implements CommandLineRunner{
 	public UserRepository userRepository;  // injeção de dependência
 
 	@Override
-	public void run(String... args) throws Exception {   // esse método foi impelementado pelo Spring 
+	public void run(String... args) throws Exception {   // esse método foi implementado pelo Spring 
 		Usuario u1 = new Usuario(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
 		Usuario u2 = new Usuario(null, "Alex Green", "alex@gmail.com", "977777777", "123456"); 
 		
