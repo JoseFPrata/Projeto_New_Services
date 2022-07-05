@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 //@Table(name = "tb_User")  // Isso faria com que o nome da tabela foi compilado com a alteração, pois o sql não aceita palavra reservadas
 //do tipo User, Order, etc. EU PREFERI ALTERAR O NOME DA ENTIDADE
@@ -25,7 +28,7 @@ public class Usuario implements Serializable{
 	private String phone;
 	private String password;
 	
-	
+	@JsonIgnore   //para que não dê loop em um relacionamento 1 para muitos
 	@OneToMany(mappedBy = "client")  //Mapeando chave para JPA quando quando quiser obter um usuário e todos seus pedidos
 	private List<Pedido> pedidos = new ArrayList<>();  //referenciar com Order (com nome mudado para pedido, mas usada anotação @Table apenas para compatibilizar com curso 
 	
