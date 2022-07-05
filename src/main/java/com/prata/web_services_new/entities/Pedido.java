@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.prata.web_services_new.entities.enums.OrderStatus;
 
 
 @Entity
@@ -28,6 +29,8 @@ public class Pedido implements Serializable {
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone ="GMT" )
 	private Instant moment;
+	
+	private Integer orderStatus;
 
 	@ManyToOne   // para instruir o JPA para transformar isso em uma chave estrangeira
 	@JoinColumn(name = "client_id")
@@ -40,13 +43,16 @@ public class Pedido implements Serializable {
 
 	}
 
-	public Pedido(Long id, Instant moment, Usuario client) {
+	public Pedido(Long id, Instant moment, OrderStatus orderStatus, Usuario client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		setOrderStatus(orderStatus);
 		this.client = client;
+		
 	}
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -63,6 +69,16 @@ public class Pedido implements Serializable {
 		this.moment = moment;
 	}
 
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {
+		this.orderStatus = orderStatus.getCode();
+		}
+	}
+	
 	public Usuario getClient() {
 		return client;
 	}
