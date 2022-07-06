@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.prata.web_services_new.entities.Category;
 import com.prata.web_services_new.entities.Pedido;
 import com.prata.web_services_new.entities.Usuario;
 import com.prata.web_services_new.entities.enums.OrderStatus;
+import com.prata.web_services_new.repositories.CategoryRepository;
 import com.prata.web_services_new.repositories.OrderRepository;
 import com.prata.web_services_new.repositories.UserRepository;
 
@@ -29,9 +31,21 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	
 
 	@Override
 	public void run(String... args) throws Exception {   // esse método foi implementado pelo Spring 
+		
+		Category cat1 = new Category(null, "Electronics");
+		Category cat2 = new Category(null, "Books");
+		Category cat3 = new Category(null, "Computers"); 
+		
+		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
+		
 		Usuario u1 = new Usuario(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
 		Usuario u2 = new Usuario(null, "Alex Green", "alex@gmail.com", "977777777", "123456"); 
 		
