@@ -2,6 +2,8 @@ package com.prata.web_services_new.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,11 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prata.web_services_new.entities.enums.OrderStatus;
-
 
 @Entity
 //@Table(name = "tb_Order")  // Isso faria com que o nome da tabela foi compilado com a alteração, pois o sql não aceita palavra reservadas
@@ -39,6 +41,9 @@ public class Pedido implements Serializable {
 	 pesquisa por id de cliente. se estivesse spring.jpa.open-in-view=false isso não seria possível */
 	private Usuario client;
 
+	@OneToMany(mappedBy ="id.order")
+	private Set<OrderItem> items = new HashSet<>();     // Porque Pedido(Order) também tem ligação de muitos pra muitos com Product. Muitas vezes será necessário saber as relações na OrdemItem
+	
 	public Pedido() {
 
 	}
@@ -85,6 +90,10 @@ public class Pedido implements Serializable {
 
 	public void setClient(Usuario client) {
 		this.client = client;
+	}
+	
+	public Set<OrderItem> getitems(){
+		return items;
 	}
 
 	@Override

@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.prata.web_services_new.entities.Category;
+import com.prata.web_services_new.entities.OrderItem;
 import com.prata.web_services_new.entities.Pedido;
 import com.prata.web_services_new.entities.Product;
 import com.prata.web_services_new.entities.Usuario;
 import com.prata.web_services_new.entities.enums.OrderStatus;
 import com.prata.web_services_new.repositories.CategoryRepository;
+import com.prata.web_services_new.repositories.OrderItemRepository;
 import com.prata.web_services_new.repositories.OrderRepository;
 import com.prata.web_services_new.repositories.ProductRepository;
 import com.prata.web_services_new.repositories.UserRepository;
@@ -41,6 +43,8 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private ProductRepository productRepository;   // injetando dependência
 	
+	@Autowired
+	private OrderItemRepository ordemItemRepository;   // injetando dependência
 	
 	
 
@@ -84,6 +88,15 @@ public class TestConfig implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(u1,u2));
 		orderRepository.saveAll(Arrays.asList(pd1,pd2,pd3));
+		
+		OrderItem oi1 = new OrderItem(pd1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(pd1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(pd2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(pd3, p5, 2, p5.getPrice());
+		
+		
+		ordemItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
 	}
 	
 	
