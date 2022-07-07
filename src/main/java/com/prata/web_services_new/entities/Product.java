@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity // MAPEAMENTO
 @Table(name = "Tb_Product") // apenas para utilizar o mesmo nome que o instrutor está usando //MAPEAMENTO
@@ -38,6 +41,9 @@ public class Product implements Serializable {
 	// Instanciamos para garantir que nossa coleção não começe nula mesmo vazia.
 	// Como o Set é uma interface ele não pode ser instanciado
 	// Então tem que usar HashSet<>() que é correspondente a essa interface
+	
+	@OneToMany(mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();    // Usa-se Set e não List porque não serão permitidas repetições
 
 	public Product() {
 
@@ -94,6 +100,18 @@ public class Product implements Serializable {
 
 	public Set<Category> getCategories() {
 		return categories;
+	}
+	
+	
+	@JsonIgnore     // Para não ficar em loop pois um Pedido tem muitos produtos e ficaria em loop com Jackson na apresentação do Json
+	                // pois pretende-se buscar apenas o produto e suas categorias
+	public Set<Pedido> getOrders(){
+		Set<Pedido> set = new HashSet<>();
+		for (OrderItem x: items) {
+			set.add(x.getOrder());
+		}
+			
+		return set;
 	}
 
 	@Override
