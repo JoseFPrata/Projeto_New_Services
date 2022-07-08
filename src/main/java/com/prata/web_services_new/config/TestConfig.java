@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.prata.web_services_new.entities.Category;
 import com.prata.web_services_new.entities.OrderItem;
+import com.prata.web_services_new.entities.Payment;
 import com.prata.web_services_new.entities.Pedido;
 import com.prata.web_services_new.entities.Product;
 import com.prata.web_services_new.entities.Usuario;
@@ -47,7 +48,6 @@ public class TestConfig implements CommandLineRunner{
 	private OrderItemRepository ordemItemRepository;   // injetando dependência
 	
 	
-
 	@Override
 	public void run(String... args) throws Exception {   // esse método foi implementado pelo Spring 
 		
@@ -96,6 +96,12 @@ public class TestConfig implements CommandLineRunner{
 		
 		
 		ordemItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-07-21T05:42:10Z"),pd1 );
+		pd1.setPayment(pay1);     //Como era 1 para 1 não precisou criar o próprio repositório
+		
+	    orderRepository.save(pd1);   //aqui está salvando de novo o pedido pd1 pois foi atualizado com o Payment
+	    
 		
 	}
 	
