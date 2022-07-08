@@ -17,15 +17,23 @@ public class UserService {
 	@Autowired
 	private UserRepository repository; // injeção de dependência do UserRepository
 	
+	// operação para listar usuários
 	public List<Usuario> findAll(){
 		
 		return repository.findAll();
 	}
 	
 	
+	//operação para encontrar por id um determinado usuário
 	public Usuario findById(Long id) {     // para retornar por id de usuário
 		Optional<Usuario>  obj = repository.findById(id);
 		return obj.get();
+	}
+	
+	
+	// operação para salvar no banco de dados um determinado usuário
+	public Usuario insert(Usuario obj) {
+		return repository.save(obj); // esse método repository.save por padrão já salva o objeto então basta colocar o return
 	}
 	
 
