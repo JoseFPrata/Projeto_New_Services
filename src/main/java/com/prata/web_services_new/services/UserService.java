@@ -38,7 +38,22 @@ public class UserService {
 	
 	
 	public void delete(Long id) {
-		repository.deleteById(id);
+		repository.deleteById(id); // esse método deleta um usuário
 	}
 
+	public Usuario update(Long id, Usuario obj){
+		Usuario entity =repository.getOne(id);  // getOne é mais eficiente que o findBy, porque apenas traz o objeto para depois esse ser inserido no banco
+		updateData(entity,obj);
+		return repository.save(entity);
+		
+	}
+
+
+	private void updateData(Usuario entity, Usuario obj) {   //só será permitido atualizar esses campos. id e password não
+		entity.setName(obj.getName());                       // esse método foi construido em razão da chamada a ele em public Usuario acima
+		entity.setEmail(obj.getEmail());      
+		entity.setPhone(obj.getPhone());
+		
+	}
+	
 }
