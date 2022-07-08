@@ -68,6 +68,10 @@ public class OrderItem implements Serializable{
 		return price;
 	}
 
+	public Double getSubTotal() {  // o nome tem que ser get... pois na plataforma javaEE o que vale é o geS
+		return price * quantity;
+	}
+	
 	public void setPrice(Double price) {
 		this.price = price;
 	}

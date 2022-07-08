@@ -11,6 +11,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity // MAPEAMENTO
 @Table(name = "Tb_payment") // apenas para utilizar o mesmo nome que o instrutor está usando //MAPEAMENTO
 public class Payment implements Serializable{
@@ -21,6 +23,7 @@ private static final long serialVersionUID = 1L;
  private Long id;
  private Instant moment;
  
+ @JsonIgnore     // Para não dar loop em Pagamentos (Payment)
  @OneToOne
  @MapsId
  private Pedido order;

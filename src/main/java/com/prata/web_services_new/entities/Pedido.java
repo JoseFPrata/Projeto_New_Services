@@ -110,6 +110,15 @@ public class Pedido implements Serializable {
 	public Set<OrderItem> getitems(){
 		return items;
 	}
+	
+	public Double getTotal() {     // aqui estamos somondo todos os valores de itens obtidos em OrderItem
+		double sum = 0.0;
+		for (OrderItem x : items) {
+			sum=sum+x.getSubTotal();
+		}
+		
+		return sum;
+	}
 
 	@Override
 	public int hashCode() {
