@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.prata.web_services_new.entities.Usuario;
 import com.prata.web_services_new.repositories.UserRepository;
+import com.prata.web_services_new.services.exceptions.ResourceNotFoundException;
 
 //@Component     // registra essa classe como um componente do Spring para poder ser injetado automaticamente
 // Poderia ser também @Repository
@@ -27,7 +28,7 @@ public class UserService {
 	//operação para encontrar por id um determinado usuário
 	public Usuario findById(Long id) {     // para retornar por id de usuário
 		Optional<Usuario>  obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));    // foi trocado método get() por este após criar os tratamentos de exceções próprios
 	}
 	
 	
