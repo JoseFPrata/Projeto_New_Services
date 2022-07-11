@@ -3,6 +3,8 @@ package com.prata.web_services_new.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -51,11 +53,15 @@ public class UserService {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public Usuario update(Long id, Usuario obj){
+		try {
 		Usuario entity =repository.getOne(id);  // getOne é mais eficiente que o findBy, porque apenas traz o objeto para depois esse ser inserido no banco
 		updateData(entity,obj);
 		return repository.save(entity);
-		
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 
