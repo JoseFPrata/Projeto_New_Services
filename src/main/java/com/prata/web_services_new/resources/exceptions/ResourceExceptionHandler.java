@@ -22,4 +22,15 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 
+	//AQUI TRATA O ERRO QUE OCORRE QUANDO O ITEM DELETADO POSSUI FILHOS NO BANCO E ENTÃO NÃO PODE SER DELETADO
+	// ESSA CONSTRUÇÃO EVITA QUE SEJA DADO APENAS UM ERRO GENERICO PELO SPRING
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> ResourceNotFound(DatabaseException e, HttpServletRequest request){
+		String error = "Não pode eliminar chave pai que contenha filhos";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(),error,e.getMessage(),request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	
 }

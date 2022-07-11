@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.prata.web_services_new.entities.Usuario;
 import com.prata.web_services_new.repositories.UserRepository;
+import com.prata.web_services_new.resources.exceptions.DatabaseException;
 import com.prata.web_services_new.services.exceptions.ResourceNotFoundException;
 
 //@Component     // registra essa classe como um componente do Spring para poder ser injetado automaticamente
@@ -39,7 +42,13 @@ public class UserService {
 	
 	
 	public void delete(Long id) {
+		try {                                   // aqui também um tratamento de exceção quando o id não existir
 		repository.deleteById(id); // esse método deleta um usuário
+		} catch (EmptyResultDataAccessException e) {
+		  throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e ) {
+			throw new DatabaseException(e.getMessage());   // Estamos lançando uma exceção da minha camada de serviços e não a padrão
+		}
 	}
 
 	public Usuario update(Long id, Usuario obj){
